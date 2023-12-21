@@ -14,5 +14,5 @@
 
 本仓库为本人不想在实验室的库里拉分支而建立的，源代码请移步：
 
-<a href="[Spatio-Temporal-Lab/elf (github.com)](https://github.com/Spatio-Temporal-Lab/elf)">Elf的库</a>
+<a href="https://github.com/Spatio-Temporal-Lab/elf">Elf的库</a>
 
