@@ -12,7 +12,15 @@ import static org.urbcomp.startdb.compress.elf.fileoperation.OperationBetweenInt
 
 public class DecompressFileOperation {
 
-    public static void writeDoubleToCSV(String binFilePath, String filePath) throws IOException {
+    final String binFilePath;
+    final String filePath;
+
+    public DecompressFileOperation(String binFilePath,String filePath){
+        this.binFilePath = binFilePath;
+        this.filePath = filePath;
+    }
+
+    public void writeDoubleToCSV() throws IOException {
 
         List<byte[]> data = readBytesFromFile(binFilePath);
 
@@ -30,9 +38,9 @@ public class DecompressFileOperation {
         }
     }
 
-    public static List<byte[]> readBytesFromFile(String outputBinFilePath) throws IOException {
-        File file = new File(outputBinFilePath); // 创建一个File对象，指定bin文件的路径
-        FileInputStream inStream = new FileInputStream(file); // 创建一个FileInputStream对象，关联bin文件
+    private List<byte[]> readBytesFromFile(String outputBinFilePath) throws IOException {
+        File file = new File(outputBinFilePath);
+        FileInputStream inStream = new FileInputStream(file);
 
         byte[] length = new byte[1];
         inStream.read(length);

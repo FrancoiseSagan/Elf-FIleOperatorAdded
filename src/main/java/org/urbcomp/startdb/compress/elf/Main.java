@@ -1,9 +1,8 @@
 package org.urbcomp.startdb.compress.elf;
 
-import java.io.*;
+import org.urbcomp.startdb.compress.elf.fileoperation.*;
 
-import static org.urbcomp.startdb.compress.elf.fileoperation.CompressFileOperation.readValuesFromCSV;
-import static org.urbcomp.startdb.compress.elf.fileoperation.DecompressFileOperation.writeDoubleToCSV;
+import java.io.*;
 
 public class Main {
 
@@ -15,13 +14,15 @@ public class Main {
         if(flag == 0){
             csvFilePath = args[1];
             binFilePath = args[2];
-            readValuesFromCSV(csvFilePath,binFilePath);
+            CompressFileOperation fileCompressor = new CompressFileOperation(csvFilePath,binFilePath);
+            fileCompressor.readValuesFromCSV();
         }
 
         else{
             binFilePath = args[1];
             csvFilePath = args[2];
-            writeDoubleToCSV(binFilePath,csvFilePath);
+            DecompressFileOperation fileDecompressor = new DecompressFileOperation(binFilePath,csvFilePath);
+            fileDecompressor.writeDoubleToCSV();
         }
     }
 }

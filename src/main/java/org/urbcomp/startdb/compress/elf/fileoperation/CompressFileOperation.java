@@ -10,9 +10,15 @@ import static org.urbcomp.startdb.compress.elf.fileoperation.OperationBetweenInt
 
 public class CompressFileOperation {
 
-    private static int AmountOfByte = 0;
+    final String filePath;
+    final String outputBinFilePath;
 
-    public static void readValuesFromCSV(String filePath, String outputBinFilePath) throws IOException {
+    public CompressFileOperation(String filePath, String outputBinFilePath){
+        this.filePath = filePath;
+        this.outputBinFilePath = outputBinFilePath;
+    }
+
+    public void readValuesFromCSV() throws IOException {
         FileReader fileReader;
 
         try {
@@ -22,13 +28,10 @@ public class CompressFileOperation {
         }
 
         double[] vs;
-        int numOfBlock = 0;
         ArrayList<Byte> sizeList = new ArrayList<>();
         sizeList.add((byte)0x00);
 
         while ((vs = fileReader.nextBlock()) != null) {
-            numOfBlock++;
-            System.out.println("第"+numOfBlock+"个块");
 
             ICompressor compressor = new ElfCompressor();
 
@@ -37,7 +40,7 @@ public class CompressFileOperation {
             }
             compressor.close();
 
-            int sizeofcompressor = compressor.getSize()/8+6;
+            int sizeofcompressor = compressor.getSize()/8+12;
 
             byte[] result = compressor.getBytes();
             byte[] sizeOfBlock = intToTwoBytes(sizeofcompressor);
@@ -51,26 +54,19 @@ public class CompressFileOperation {
         addBlockSizeToFile(sizeList,outputBinFilePath);
     }
 
-    private static void writeBytesToFile(byte[] data, String outputBinFilePath,int size) {
+    private void writeBytesToFile(byte[] data, String outputBinFilePath,int size) {
         try (FileOutputStream fos = new FileOutputStream(outputBinFilePath, true)) {
             for (int i = 0; i < size; i++) {
                 fos.write(data[i]);
-                if(i == size-1){
-                    System.out.println("写入" + (i+1) + "字节");
-                    AmountOfByte += i+1;
-                }
             }
-
-            System.out.println("共有" + AmountOfByte + "字节");
-            System.out.println("文件写入成功。");
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("写入文件'" + outputBinFilePath + "'时出错：" + e.getMessage());
+            System.err.println("when writing'" + outputBinFilePath + "',an error occurred:" + e.getMessage());
         }
     }
 
-    private static void addBlockSizeToFile(ArrayList<Byte> byteList,String outputBinFilePath) throws IOException {
+    private void addBlockSizeToFile(ArrayList<Byte> byteList,String outputBinFilePath) throws IOException {
         int spaceSize = byteList.size();
 
         RandomAccessFile file = new RandomAccessFile(new File(outputBinFilePath), "rw");
