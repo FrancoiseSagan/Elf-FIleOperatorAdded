@@ -16,3 +16,5 @@
 
 <a href="https://github.com/Spatio-Temporal-Lab/elf">Elf的库</a>
 
+##### 修改日志
+12.24 文件操作类改为非static，增加构造函数
