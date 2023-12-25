@@ -3,6 +3,8 @@ package org.urbcomp.startdb.compress.elf.fileoperation;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileReader {
     public static final int DEFAULT_BLOCK_SIZE = 1000;
@@ -20,23 +22,28 @@ public class FileReader {
     }
 
     public double[] nextBlock() {
-        double[] values = new double[DEFAULT_BLOCK_SIZE];
+        List<Double> valuesList = new ArrayList<>();
         String line;
-        int counter = 0;
         try {
+            int counter = 0;
             while ((line = bufferedReader.readLine()) != null) {
                 try {
-                    values[counter++] = Double.parseDouble(line);
+                    valuesList.add(Double.parseDouble(line));
+                    counter++;
                     if (counter == blockSize) {
-                        return values;
+                        return valuesList.stream().mapToDouble(Double::doubleValue).toArray();
                     }
-                } catch (NumberFormatException | ArrayIndexOutOfBoundsException ignored) {
+                } catch (NumberFormatException ignored) {
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (!valuesList.isEmpty()) {
+            return valuesList.stream().mapToDouble(Double::doubleValue).toArray();
+        }
+
         return null;
     }
 }
