@@ -22,4 +22,6 @@
 
 12.24 文件操作类改为非static，增加构造函数
 
-12.25 filereader 改为arraylist，现在可以读取最后一个块，但是速度好像慢了，考虑优化
+12.25 filereader 改为arraylist，现在可以读取最后一个块
+
+12.26 块的数量改为2bytes
