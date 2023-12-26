@@ -42,10 +42,10 @@ public class DecompressFileOperation {
         File file = new File(outputBinFilePath);
         FileInputStream inStream = new FileInputStream(file);
 
-        byte[] length = new byte[1];
+        byte[] length = new byte[2];
         inStream.read(length);
 
-        int intlength = oneBytesToInt(length[0]);
+        int intlength = twoBytesToInt(length);
         byte[] sizeOfBlock = new byte[intlength*2];
         inStream.read(sizeOfBlock);
 

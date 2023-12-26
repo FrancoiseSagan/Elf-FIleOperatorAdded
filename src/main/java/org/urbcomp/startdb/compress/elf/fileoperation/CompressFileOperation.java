@@ -30,6 +30,7 @@ public class CompressFileOperation {
         double[] vs;
         ArrayList<Byte> sizeList = new ArrayList<>();
         sizeList.add((byte)0x00);
+        sizeList.add((byte)0x00);
 
         while ((vs = fileReader.nextBlock()) != null) {
 
@@ -45,7 +46,13 @@ public class CompressFileOperation {
             byte[] result = compressor.getBytes();
             byte[] sizeOfBlock = intToTwoBytes(sizeofcompressor);
 
-            sizeList.set(0,(byte)(sizeList.get(0)+1));
+            if(sizeList.get(1) != (byte)0xff){
+                sizeList.set(1,(byte)(sizeList.get(0)+1));
+            }
+            else {
+                sizeList.set(0,(byte)(sizeList.get(0)+1));
+                sizeList.set(1,(byte)0x00);
+            }
             sizeList.add(sizeOfBlock[0]);
             sizeList.add(sizeOfBlock[1]);
 
