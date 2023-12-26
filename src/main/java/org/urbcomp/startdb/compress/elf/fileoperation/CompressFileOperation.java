@@ -47,7 +47,7 @@ public class CompressFileOperation {
             byte[] sizeOfBlock = intToTwoBytes(sizeofcompressor);
 
             if(sizeList.get(1) != (byte)0xff){
-                sizeList.set(1,(byte)(sizeList.get(0)+1));
+                sizeList.set(1,(byte)(sizeList.get(1)+1));
             }
             else {
                 sizeList.set(0,(byte)(sizeList.get(0)+1));
