@@ -9,13 +9,13 @@ public class OperationBetweenIntAndByte {
         return result;
     }
 
-    public static int twoBytesToInt(byte[] bytes){
-        int result =((bytes[0] & 0xFF) << 8)|(bytes[1] & 0xFF);
+    public static int twoBytesToInt(byte[] bytes) {
+        int result = ((bytes[0] & 0xFF) << 8) | (bytes[1] & 0xFF);
         return result;
     }
 
-    public static int oneBytesToInt(byte abyte){
-        int result =(abyte & 0xFF);
+    public static int oneBytesToInt(byte abyte) {
+        int result = (abyte & 0xFF);
         return result;
     }
 }

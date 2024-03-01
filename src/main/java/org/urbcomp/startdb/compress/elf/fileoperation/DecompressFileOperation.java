@@ -15,7 +15,7 @@ public class DecompressFileOperation {
     final String binFilePath;
     final String filePath;
 
-    public DecompressFileOperation(String binFilePath,String filePath){
+    public DecompressFileOperation(String binFilePath, String filePath) {
         this.binFilePath = binFilePath;
         this.filePath = filePath;
     }
@@ -46,20 +46,20 @@ public class DecompressFileOperation {
         inStream.read(length);
 
         int intlength = twoBytesToInt(length);
-        byte[] sizeOfBlock = new byte[intlength*2];
+        byte[] sizeOfBlock = new byte[intlength * 2];
         inStream.read(sizeOfBlock);
 
         List<Integer> sizeOfBlockToInt = new ArrayList<>();
 
-        for(int i =0;i<intlength;i++){
+        for (int i = 0; i < intlength; i++) {
             byte[] tempArr = new byte[2];
-            tempArr[0] = sizeOfBlock[2*i];
-            tempArr[1] = sizeOfBlock[2*i+1];
+            tempArr[0] = sizeOfBlock[2 * i];
+            tempArr[1] = sizeOfBlock[2 * i + 1];
             sizeOfBlockToInt.add(twoBytesToInt(tempArr));
         }
 
         List<byte[]> byteTodec = new ArrayList<>();
-        for(int i = 0;i < intlength;i++){
+        for (int i = 0; i < intlength; i++) {
             byte[] byteOfBlock = new byte[sizeOfBlockToInt.get(i)];
             inStream.read(byteOfBlock);
             byteTodec.add(byteOfBlock);

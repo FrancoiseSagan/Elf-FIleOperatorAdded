@@ -13,7 +13,7 @@ public class CompressFileOperation {
     final String filePath;
     final String outputBinFilePath;
 
-    public CompressFileOperation(String filePath, String outputBinFilePath){
+    public CompressFileOperation(String filePath, String outputBinFilePath) {
         this.filePath = filePath;
         this.outputBinFilePath = outputBinFilePath;
     }
@@ -29,8 +29,8 @@ public class CompressFileOperation {
 
         double[] vs;
         ArrayList<Byte> sizeList = new ArrayList<>();
-        sizeList.add((byte)0x00);
-        sizeList.add((byte)0x00);
+        sizeList.add((byte) 0x00);
+        sizeList.add((byte) 0x00);
 
         while ((vs = fileReader.nextBlock()) != null) {
 
@@ -41,27 +41,26 @@ public class CompressFileOperation {
             }
             compressor.close();
 
-            int sizeofcompressor = compressor.getSize()/8+12;
+            int sizeofcompressor = compressor.getSize() / 8 + 12;
 
             byte[] result = compressor.getBytes();
             byte[] sizeOfBlock = intToTwoBytes(sizeofcompressor);
 
-            if(sizeList.get(1) != (byte)0xff){
-                sizeList.set(1,(byte)(sizeList.get(1)+1));
-            }
-            else {
-                sizeList.set(0,(byte)(sizeList.get(0)+1));
-                sizeList.set(1,(byte)0x00);
+            if (sizeList.get(1) != (byte) 0xff) {
+                sizeList.set(1, (byte) (sizeList.get(1) + 1));
+            } else {
+                sizeList.set(0, (byte) (sizeList.get(0) + 1));
+                sizeList.set(1, (byte) 0x00);
             }
             sizeList.add(sizeOfBlock[0]);
             sizeList.add(sizeOfBlock[1]);
 
-            writeBytesToFile(result, outputBinFilePath,sizeofcompressor);
+            writeBytesToFile(result, outputBinFilePath, sizeofcompressor);
         }
-        addBlockSizeToFile(sizeList,outputBinFilePath);
+        addBlockSizeToFile(sizeList, outputBinFilePath);
     }
 
-    private void writeBytesToFile(byte[] data, String outputBinFilePath,int size) {
+    private void writeBytesToFile(byte[] data, String outputBinFilePath, int size) {
         try (FileOutputStream fos = new FileOutputStream(outputBinFilePath, true)) {
             for (int i = 0; i < size; i++) {
                 fos.write(data[i]);
@@ -73,7 +72,7 @@ public class CompressFileOperation {
         }
     }
 
-    private void addBlockSizeToFile(ArrayList<Byte> byteList,String outputBinFilePath) throws IOException {
+    private void addBlockSizeToFile(ArrayList<Byte> byteList, String outputBinFilePath) throws IOException {
         int spaceSize = byteList.size();
 
         RandomAccessFile file = new RandomAccessFile(new File(outputBinFilePath), "rw");
